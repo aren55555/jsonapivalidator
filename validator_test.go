@@ -19,8 +19,8 @@ func TestValidate_ErrRootDataAndErrors(t *testing.T) {
   "errors": {}
   }`)
 
-	if !validatePayload(t, data).HasError(ErrRootDataAndErrors) {
-		t.Fatal("Was expecting an error")
+	if expecting, r := ErrRootDataAndErrors, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
 	}
 }
 
