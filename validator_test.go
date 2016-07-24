@@ -34,6 +34,46 @@ func TestValidate_nullData(t *testing.T) {
 	}
 }
 
+func TestValidate_dataArrayEmpty(t *testing.T) {
+	data := []byte(`{
+  "data": []
+  }`)
+
+	if validatePayload(t, data).HasErrors() {
+		t.Fatal("Was not expecting an error")
+	}
+}
+
+func TestValidate_dataUnexpected(t *testing.T) {
+	data := []byte(`{
+	  "data": false
+	  }`)
+
+	if expecting, r := ErrInvalidDataType, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
+	}
+}
+
+func TestValidate_validateResourceObject(t *testing.T) {
+	data := []byte(`{
+	  "data": {"id": "1", "type": "car"}
+	  }`)
+
+	if validatePayload(t, data).HasErrors() {
+		t.Fatal("Was not expecting an error")
+	}
+}
+
+func TestValidate_invalidResource(t *testing.T) {
+	data := []byte(`{
+	  "data": {"aren55555": true}
+	  }`)
+
+	if expecting, r := ErrNotAResource, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
+	}
+}
+
 func TestValidate_errorsKeys(t *testing.T) {
 	data := []byte(`{
 	  "errors": {

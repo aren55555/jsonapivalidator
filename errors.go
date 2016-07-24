@@ -11,4 +11,10 @@ var (
 	ErrInvalidErrorMember = errors.New("Invalid member to /errors")
 	// ErrInvalidDataType is for data not being a hash array or null JSON type
 	ErrInvalidDataType = errors.New("/data must contain a value that is a {}, [] or null")
+
+	// ErrResourceObjectMissingID is returned when a resouce object did not have any value for the id key
+	ErrResourceObjectMissingID = errors.New("A resource object MUST contain an id")
+	// ErrResourceObjectMissingType is returned when a resouce object did not have any value for the type key
+	ErrResourceObjectMissingType = errors.New("A resource object MUST contain a type")
+	ErrNotAResource              = errors.New("Was not a resource object or a single resource identifier object")
 )
