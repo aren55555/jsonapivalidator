@@ -9,9 +9,9 @@ func Validate(payload interface{}) (result *Result) {
 
 	// Check the root
 	root := payload.(map[string]interface{})
-	data, dataExists := root["data"]
-	errors, errorsExists := root["errors"]
-	_, metaExists := root["meta"]
+	data, dataExists := root[memberData]
+	errors, errorsExists := root[memberErrors]
+	_, metaExists := root[memberMeta]
 
 	if !(metaExists || errorsExists || dataExists) {
 		result.AddError(ErrAtLeastOneRoot)
@@ -81,7 +81,7 @@ func validateResource(r map[string]interface{}, result *Result) {
 func isResourceObject(r map[string]interface{}) bool {
 	for key := range r {
 		switch key {
-		case "id", "type", "attributes", "relationships", "links", "meta":
+		case memberID, memberType, memberAttributes, memberRelationships, memberLinks, memberMeta:
 			// do nothing
 		default:
 			return false
@@ -91,13 +91,13 @@ func isResourceObject(r map[string]interface{}) bool {
 }
 
 func validateResourceObject(ro map[string]interface{}, result *Result) {
-	if id, hasID := ro["id"]; !hasID {
+	if id, hasID := ro[memberID]; !hasID {
 		result.AddError(ErrResourceObjectMissingID)
 	} else {
 		validateID(id, result)
 	}
 
-	if jType, hasType := ro["type"]; !hasType {
+	if jType, hasType := ro[memberType]; !hasType {
 		result.AddError(ErrResourceObjectMissingType)
 	} else {
 		validateType(jType, result)
@@ -109,7 +109,7 @@ func validateResourceObject(ro map[string]interface{}, result *Result) {
 func isResourceIdentifierObject(r map[string]interface{}) bool {
 	for key := range r {
 		switch key {
-		case "id", "type", "meta":
+		case memberID, memberType, memberMeta:
 			// do nothing
 		default:
 			return false
@@ -119,28 +119,54 @@ func isResourceIdentifierObject(r map[string]interface{}) bool {
 }
 
 func validateResourceIdentifierObject(ro map[string]interface{}, result *Result) {
-	// TODO: validate RIO
+	if id, hasID := ro[memberID]; !hasID {
+		result.AddError(ErrResourceObjectMissingID)
+	} else {
+		validateID(id, result)
+	}
+
+	if jType, hasType := ro[memberType]; !hasType {
+		result.AddError(ErrResourceObjectMissingType)
+	} else {
+		validateType(jType, result)
+	}
+
+	if meta, hasMeta := ro[memberMeta]; hasMeta {
+		validateMeta(meta, result)
+	}
+
+	return
+}
+
+func validateMeta(meta interface{}, result *Result) {
+	return
 }
 
 func validateID(id interface{}, result *Result) {
-	// TODO: validate ID is a string
+	if _, ok := id.(string); !ok {
+		result.AddError(ErrIDNotString)
+	}
+	return
 }
 
 func validateType(t interface{}, result *Result) {
-	// TODO: validate Type is a string
+	if _, ok := t.(string); !ok {
+		result.AddError(ErrTypeNotString)
+	}
+	return
 }
 
 func validateErrors(errors map[string]interface{}, result *Result) {
 	for k := range errors {
 		switch k {
-		case "id":
-		case "links":
-		case "status":
-		case "code":
-		case "title":
-		case "detail":
-		case "source":
-		case "meta":
+		case memberID:
+		case memberLinks:
+		case memberStatus:
+		case memberCode:
+		case memberTitle:
+		case memberDetail:
+		case memberSource:
+		case memberMeta:
 		default:
 			result.AddError(ErrInvalidErrorMember)
 		}

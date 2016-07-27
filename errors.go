@@ -16,5 +16,11 @@ var (
 	ErrResourceObjectMissingID = errors.New("A resource object MUST contain an id")
 	// ErrResourceObjectMissingType is returned when a resouce object did not have any value for the type key
 	ErrResourceObjectMissingType = errors.New("A resource object MUST contain a type")
-	ErrNotAResource              = errors.New("Was not a resource object or a single resource identifier object")
+	// ErrNotAResource is returend when something should have been a resource object or a resource identifier
+	ErrNotAResource = errors.New("Was not a resource object or a single resource identifier object")
+
+	// ErrIDNotString is for when an id member was anything but a string
+	ErrIDNotString = errors.New("id was not a string")
+	// ErrTypeNotString is for when a type member was anything but a string
+	ErrTypeNotString = errors.New("type was not a string")
 )
