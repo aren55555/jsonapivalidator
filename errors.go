@@ -28,6 +28,14 @@ var (
 	// any value for the type key
 	ErrResourceObjectMissingType = errors.New("A resource object MUST contain a" +
 		" type")
+	// ErrResourceObjectIdentifierMissingID is returned when a resouce object did
+	// not have any value for the id key
+	ErrResourceObjectIdentifierMissingID = errors.New("A resource object MUST " +
+		"contain an id")
+	// ErrResourceObjectIdentifierMissingType is returned when a resouce object
+	// did not have any value for the type key
+	ErrResourceObjectIdentifierMissingType = errors.New("A resource object MUST" +
+		" contain a type")
 	// ErrNotAResource is returend when something should have been a resource
 	// object or a resource identifier
 	ErrNotAResource = errors.New("Was not a resource object or a single " +

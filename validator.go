@@ -144,13 +144,13 @@ func isResourceIdentifierObject(r map[string]interface{}) bool {
 
 func validateResourceIdentifierObject(ro map[string]interface{}, result *Result) {
 	if id, hasID := ro[memberID]; !hasID {
-		result.AddError(ErrResourceObjectMissingID)
+		result.AddError(ErrResourceObjectIdentifierMissingID)
 	} else {
 		validateID(id, result)
 	}
 
 	if jType, hasType := ro[memberType]; !hasType {
-		result.AddError(ErrResourceObjectMissingType)
+		result.AddError(ErrResourceObjectIdentifierMissingType)
 	} else {
 		validateType(jType, result)
 	}
