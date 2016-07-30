@@ -1,6 +1,7 @@
 package jsonapivalidator
 
 const (
+	memberJSONAPI       = "jsonapi"
 	memberData          = "data"
 	memberErrors        = "errors"
 	memberID            = "id"

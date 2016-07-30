@@ -5,11 +5,16 @@ import (
 	"testing"
 )
 
+const (
+	testErrorExpected    = "Was expecting an error\nExpected: %s\nGot: %s"
+	testErrorNotExpected = "Was not expecting an error"
+)
+
 func TestValidate_ErrAtLeastOneRoot(t *testing.T) {
 	data := []byte(`{}`)
 
-	if !validatePayload(t, data).HasError(ErrAtLeastOneRoot) {
-		t.Fatal("Was expecting an error")
+	if expecting, r := ErrAtLeastOneRoot, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
@@ -20,7 +25,18 @@ func TestValidate_ErrRootDataAndErrors(t *testing.T) {
   }`)
 
 	if expecting, r := ErrRootDataAndErrors, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
+	}
+}
+
+func TestValidate_invalidJSONAPI(t *testing.T) {
+	data := []byte(`{
+  	"data": {},
+  	"jsonapi": [1,2,3]
+  }`)
+
+	if expecting, r := ErrNotJSONAPIObject, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
@@ -30,7 +46,7 @@ func TestValidate_nullData(t *testing.T) {
   }`)
 
 	if validatePayload(t, data).HasErrors() {
-		t.Fatal("Was not expecting an error")
+		t.Fatal(testErrorNotExpected)
 	}
 }
 
@@ -40,7 +56,7 @@ func TestValidate_dataArrayEmpty(t *testing.T) {
   }`)
 
 	if validatePayload(t, data).HasErrors() {
-		t.Fatal("Was not expecting an error")
+		t.Fatal(testErrorNotExpected)
 	}
 }
 
@@ -50,7 +66,7 @@ func TestValidate_dataUnexpected(t *testing.T) {
 	}`)
 
 	if expecting, r := ErrInvalidDataType, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
@@ -60,7 +76,7 @@ func TestValidate_validateesourceIdentifierObject(t *testing.T) {
 	}`)
 
 	if validatePayload(t, data).HasErrors() {
-		t.Fatal("Was not expecting an error")
+		t.Fatal(testErrorNotExpected)
 	}
 }
 
@@ -70,7 +86,7 @@ func TestValidate_validateesourceIdentifierObject_idNotString(t *testing.T) {
 	}`)
 
 	if expecting, r := ErrIDNotString, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
@@ -80,7 +96,7 @@ func TestValidate_validateesourceIdentifierObject_typeNotString(t *testing.T) {
 	}`)
 
 	if expecting, r := ErrTypeNotString, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
@@ -90,7 +106,7 @@ func TestValidate_validateResourceObject(t *testing.T) {
 	}`)
 
 	if validatePayload(t, data).HasErrors() {
-		t.Fatal("Was not expecting an error")
+		t.Fatal(testErrorNotExpected)
 	}
 }
 
@@ -100,7 +116,91 @@ func TestValidate_invalidResource(t *testing.T) {
 	}`)
 
 	if expecting, r := ErrNotAResource, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf("Was expecting an error\nExpected: %s\nGot: %s", expecting, r.Errors())
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
+	}
+}
+
+func TestValidate_attributes(t *testing.T) {
+	data := []byte(`{
+	  "data": {
+			"id": "1",
+			"type": "car",
+			"attributes": {
+				"make":  "VW",
+				"model": "R32",
+				"year":  2008
+			}
+		}
+	}`)
+
+	if validatePayload(t, data).HasErrors() {
+		t.Fatal(testErrorNotExpected)
+	}
+}
+
+func TestValidate_invalidRelationshipsObject(t *testing.T) {
+	data := []byte(`{
+	  "data": {
+			"id": "1",
+			"type": "car",
+			"relationships": [1,2,3]
+		}
+	}`)
+
+	if expecting, r := ErrNotRelationshipsObject, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
+	}
+}
+
+func TestValidate_invalidRelationshipObject(t *testing.T) {
+	data := []byte(`{
+	  "data": {
+			"id": "1",
+			"type": "car",
+			"relationships": {
+				"driver": 55555
+			}
+		}
+	}`)
+
+	if expecting, r := ErrNotRelationshipObject, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
+	}
+}
+
+func TestValidate_nullResourceLinkage(t *testing.T) {
+	data := []byte(`{
+	  "data": {
+			"id": "1",
+			"type": "car",
+			"relationships": {
+				"driver": {
+					"data": null
+				}
+			}
+		}
+	}`)
+
+	if validatePayload(t, data).HasErrors() {
+		t.Fatal(testErrorNotExpected)
+	}
+}
+
+func TestValidate_invalidResourceLinkage(t *testing.T) {
+	data := []byte(`{
+	  "data": {
+			"id": "1",
+			"type": "car",
+			"relationships": {
+				"driver": {
+					"data": 42
+				}
+			}
+		}
+	}`)
+
+	if expecting, r := ErrInvalidResourceLinkage, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
