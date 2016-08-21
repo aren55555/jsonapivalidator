@@ -92,7 +92,7 @@ func validateResourceIdentifierObject(ro map[string]interface{}, result *Result)
 	}
 
 	if meta, hasMeta := ro[memberMeta]; hasMeta {
-		validateMeta(meta, result)
+		validateMetaObject(meta, result)
 	}
 
 	return
