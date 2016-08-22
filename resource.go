@@ -59,7 +59,7 @@ func validateResourceObject(ro map[string]interface{}, result *Result) {
 		validateRelationshipsObject(relationships, result)
 	}
 	if links, hasLinks := ro[memberLinks]; hasLinks {
-		validateLinksObject(links, result)
+		validateLinksObject(links, result, linksAllMembers)
 	}
 	if meta, hasMeta := ro[memberMeta]; hasMeta {
 		validateMetaObject(meta, result)

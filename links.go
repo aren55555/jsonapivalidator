@@ -2,10 +2,13 @@ package jsonapivalidator
 
 import "reflect"
 
-func validateLinksObject(l interface{}, result *Result) {
+var linksAllMembers = []string{}
+
+func validateLinksObject(l interface{}, result *Result, onlyMembers []string) {
 	// TODO: in a lot of cases there are only certain members allowed in the links
 	// object; for instance when dealing with a /links object at the top level,
-	// only "self" and "related" members are allowed.
+	// only "self" and "related" members are allowed. The onlyMembers argument
+	// will be used to specifiy the allowd member keys.
 
 	links, ok := l.(map[string]interface{})
 	if !ok {

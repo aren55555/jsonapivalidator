@@ -41,7 +41,7 @@ func Validate(payload interface{}) (result *Result) {
 	}
 	//  links: a links object related to the primary data.
 	if links, linksExists := document[memberLinks]; linksExists {
-		validateLinksObject(links, result)
+		validateLinksObject(links, result, linksAllMembers)
 	}
 	//  included: an array of resource objects that are related to the primary
 	//            data and/or each other (“included resources”).

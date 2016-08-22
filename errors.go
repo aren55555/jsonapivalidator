@@ -30,7 +30,7 @@ func validateErrorObject(e interface{}, result *Result) {
 			// a links object containing the following members:
 			//  about: a link that leads to further details about this particular
 			//         occurrence of the problem.
-			validateLinksObject(v, result)
+			validateLinksObject(v, result, linksAllMembers)
 		case memberStatus:
 			// the HTTP status code applicable to this problem, expressed as a string
 			// value.
