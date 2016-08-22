@@ -2,6 +2,23 @@ package jsonapivalidator
 
 import "testing"
 
+func TestValidate_validErrors(t *testing.T) {
+	data := []byte(`{
+		"errors": [
+		  {
+		    "status": "422",
+		    "source": { "pointer": "/data/attributes/first-name" },
+		    "title":  "Invalid Attribute",
+		    "detail": "First name must contain at least three characters."
+		  }
+		]
+	}`)
+
+	if validatePayload(t, data).HasErrors() {
+		t.Fatal(testErrorNotExpected)
+	}
+}
+
 func TestValidate_errorsNotArray(t *testing.T) {
 	data := []byte(`{
 	  "errors": 32
@@ -31,22 +48,5 @@ func TestValidate_errorsKeys(t *testing.T) {
 
 	if expecting, r := ErrInvalidErrorMember, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
-}
-
-func TestValidate_validErrors(t *testing.T) {
-	data := []byte(`{
-		"errors": [
-		  {
-		    "status": "422",
-		    "source": { "pointer": "/data/attributes/first-name" },
-		    "title":  "Invalid Attribute",
-		    "detail": "First name must contain at least three characters."
-		  }
-		]
-	}`)
-
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
 	}
 }
