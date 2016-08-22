@@ -1,12 +1,27 @@
 package jsonapivalidator
 
-// Validate checks the payload against the JSONAPI sepc, returns a Result
+import "encoding/json"
+
+// UnmarshalAndValidate wil
+func UnmarshalAndValidate(data []byte) (result *Result, err error) {
+	var root interface{}
+
+	if err = json.Unmarshal(data, &root); err != nil {
+		return
+	}
+
+	result = Validate(root)
+
+	return
+}
+
+// Validate checks the root payload against the JSONAPI sepc, returns a Result
 // populated with all spec violations.
-func Validate(payload interface{}) (result *Result) {
+func Validate(root interface{}) (result *Result) {
 	result = NewResult()
 
 	// Check the document
-	document := payload.(map[string]interface{})
+	document := root.(map[string]interface{})
 	data, dataExists := document[memberData]
 	errors, errorsExists := document[memberErrors]
 	meta, metaExists := document[memberMeta]

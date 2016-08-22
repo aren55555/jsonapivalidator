@@ -2,6 +2,9 @@ package test
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"path/filepath"
 	"testing"
 
 	"github.com/aren55555/jsonapivalidator"
@@ -13,7 +16,7 @@ const (
 )
 
 func validatePayload(t *testing.T, data []byte) *jsonapivalidator.Result {
-	var obj map[string]interface{}
+	var obj interface{}
 	if err := json.Unmarshal(data, &obj); err != nil {
 		t.Fatal(err)
 	}
@@ -35,4 +38,14 @@ func expectedResult(t *testing.T, data []byte, expectedErr error) {
 	if !r.HasError(expectedErr) {
 		t.Fatalf(testErrorExpected, expectedErr, r.Errors())
 	}
+}
+
+func loadSample(t *testing.T, sample string) (data []byte) {
+	sampleFile, err := filepath.Abs(fmt.Sprintf("./samples/%s", sample))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	data, err = ioutil.ReadFile(sampleFile)
+	return
 }
