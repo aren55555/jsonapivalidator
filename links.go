@@ -3,6 +3,10 @@ package jsonapivalidator
 import "reflect"
 
 func validateLinksObject(l interface{}, result *Result) {
+	// TODO: in a lot of cases there are only certain members allowed in the links
+	// object; for instance when dealing with a /links object at the top level,
+	// only "self" and "related" members are allowed.
+
 	links, ok := l.(map[string]interface{})
 	if !ok {
 		result.AddError(ErrNotLinksObject)
