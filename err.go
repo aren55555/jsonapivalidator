@@ -7,15 +7,21 @@ var (
 	// level member
 	ErrAtLeastOneRoot = errors.New("A document MUST contain at least one of the" +
 		"following top-level members: /data, /errors or /meta")
-	// ErrRootDataAndErrors adsfasd adsf
-	ErrRootDataAndErrors = errors.New("The members /data and /errors MUST NOT" +
+	// ErrRootDataAndErrors is the error returned when the top level document
+	// contains both data and errors members
+	ErrRootDataAndErrors = errors.New("The members /data and /errors MUST NOT " +
 		"coexist in the same document")
+	// ErrRootIncludedWithoutData is the error returned when the top level
+	// document contains an included member without a data member
+	ErrRootIncludedWithoutData = errors.New("The /included member MUST NOT be " +
+		"be present if there is no /data member")
+
 	// ErrInvalidDataType is for data not being a hash array or null JSON type
 	ErrInvalidDataType = errors.New("/data must contain a value that is a {}, " +
 		"[] or null")
+
 	// ErrInvalidErrorsType is for errors not being an array
 	ErrInvalidErrorsType = errors.New("/errors must contain a []")
-
 	// ErrNotErrorObject is the error when the error object is not a {} with
 	// string keys
 	ErrNotErrorObject = errors.New("The value at the error key was " +
@@ -85,12 +91,20 @@ var (
 		"or an array of resource identifier objects for non-empty to-many " +
 		"relationships")
 
+	// ErrNotLinksObject is the error returned if the links object could not be
+	// type asserted as a {string => *}
 	ErrNotLinksObject = errors.New("The value at the links key was " +
 		"not a valid links object {}")
+	// ErrNotLinkObject is the error returned if the link object could not be
+	// type asserted as a {string => *}
 	ErrNotLinkObject = errors.New("The value at the link key was " +
 		"not a valid link object {}")
+	// ErrInvalidLinkType is the error returned if a link object was something
+	// other than a {} or string
 	ErrInvalidLinkType = errors.New("A link MUST be represented as either: a " +
 		"a string containing the link’s URL OR a link object")
+	// ErrInvalidLinkMember is the error returned if a link object member was not
+	// href or meta
 	ErrInvalidLinkMember = errors.New("Invalid member to link object; only " +
 		"href and meta are permitted")
 )

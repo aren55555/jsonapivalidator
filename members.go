@@ -10,6 +10,7 @@ const (
 	memberRelationships = "relationships"
 	memberLinks         = "links"
 	memberMeta          = "meta"
+	memberIncluded      = "included"
 
 	// Error object specific
 	memberStatus = "status"
