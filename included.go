@@ -1,7 +1,5 @@
 package jsonapivalidator
 
-import "fmt"
-
 func validateIncluded(included interface{}, result *Result) {
 	// included MUST be an array
 	includes, ok := included.([]interface{})
@@ -10,6 +8,7 @@ func validateIncluded(included interface{}, result *Result) {
 	}
 
 	for _, i := range includes {
-		fmt.Println(i)
+		r := i.(map[string]interface{})
+		validateResourceObject(r, result)
 	}
 }
