@@ -84,4 +84,13 @@ var (
 		"a single resource identifier object for non-empty to-one relationships," +
 		"or an array of resource identifier objects for non-empty to-many " +
 		"relationships")
+
+	ErrNotLinksObject = errors.New("The value at the links key was " +
+		"not a valid links object {}")
+	ErrNotLinkObject = errors.New("The value at the link key was " +
+		"not a valid link object {}")
+	ErrInvalidLinkType = errors.New("A link MUST be represented as either: a " +
+		"a string containing the link’s URL OR a link object")
+	ErrInvalidLinkMember = errors.New("Invalid member to link object; only " +
+		"href and meta are permitted")
 )

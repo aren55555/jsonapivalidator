@@ -39,6 +39,9 @@ func Validate(payload interface{}) (result *Result) {
 	if jsonapi, jsonAPIExists := document[memberJSONAPI]; jsonAPIExists {
 		validateJSONAPIObject(jsonapi, result)
 	}
+	if links, linksExists := document[memberLinks]; linksExists {
+		validateLinksObject(links, result)
+	}
 
 	return
 }

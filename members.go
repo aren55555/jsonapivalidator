@@ -10,9 +10,14 @@ const (
 	memberRelationships = "relationships"
 	memberLinks         = "links"
 	memberMeta          = "meta"
-	memberStatus        = "status"
-	memberCode          = "code"
-	memberTitle         = "title"
-	memberDetail        = "detail"
-	memberSource        = "source"
+
+	// Error object specific
+	memberStatus = "status"
+	memberCode   = "code"
+	memberTitle  = "title"
+	memberDetail = "detail"
+	memberSource = "source"
+
+	// Link object specific
+	memberHref = "href"
 )
