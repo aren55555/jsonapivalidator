@@ -7,8 +7,8 @@ func TestValidate_errorsNotArray(t *testing.T) {
 	  "errors": 32
 	}`)
 
-	if !validatePayload(t, data).HasError(ErrInvalidErrorsType) {
-		t.Fatal("Was expecting an error")
+	if expecting, r := ErrInvalidErrorsType, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
@@ -17,8 +17,8 @@ func TestValidate_errorNotErrorObject(t *testing.T) {
 	  "errors": [32]
 	}`)
 
-	if !validatePayload(t, data).HasError(ErrNotErrorObject) {
-		t.Fatal("Was expecting an error")
+	if expecting, r := ErrNotErrorObject, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
 
@@ -29,7 +29,24 @@ func TestValidate_errorsKeys(t *testing.T) {
 		}]
 	}`)
 
-	if !validatePayload(t, data).HasError(ErrInvalidErrorMember) {
-		t.Fatal("Was expecting an error")
+	if expecting, r := ErrInvalidErrorMember, validatePayload(t, data); !r.HasError(expecting) {
+		t.Fatalf(testErrorExpected, expecting, r.Errors())
+	}
+}
+
+func TestValidate_validErrors(t *testing.T) {
+	data := []byte(`{
+		"errors": [
+		  {
+		    "status": "422",
+		    "source": { "pointer": "/data/attributes/first-name" },
+		    "title":  "Invalid Attribute",
+		    "detail": "First name must contain at least three characters."
+		  }
+		]
+	}`)
+
+	if validatePayload(t, data).HasErrors() {
+		t.Fatal(testErrorNotExpected)
 	}
 }
