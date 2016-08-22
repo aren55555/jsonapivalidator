@@ -1,6 +1,10 @@
-package jsonapivalidator
+package test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/aren55555/jsonapivalidator"
+)
 
 func TestValidate_invalidRelationshipsObject(t *testing.T) {
 	data := []byte(`{
@@ -11,7 +15,7 @@ func TestValidate_invalidRelationshipsObject(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := ErrNotRelationshipsObject, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrNotRelationshipsObject, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
@@ -27,7 +31,7 @@ func TestValidate_invalidRelationshipObject(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := ErrNotRelationshipObject, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrNotRelationshipObject, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
@@ -63,7 +67,7 @@ func TestValidate_invalidResourceLinkage(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := ErrInvalidResourceLinkage, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrInvalidResourceLinkage, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }

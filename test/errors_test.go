@@ -1,6 +1,10 @@
-package jsonapivalidator
+package test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/aren55555/jsonapivalidator"
+)
 
 func TestValidate_validErrors(t *testing.T) {
 	data := []byte(`{
@@ -24,7 +28,7 @@ func TestValidate_errorsNotArray(t *testing.T) {
 	  "errors": 32
 	}`)
 
-	if expecting, r := ErrInvalidErrorsType, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrInvalidErrorsType, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
@@ -34,7 +38,7 @@ func TestValidate_errorNotErrorObject(t *testing.T) {
 	  "errors": [32]
 	}`)
 
-	if expecting, r := ErrNotErrorObject, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrNotErrorObject, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
@@ -46,7 +50,7 @@ func TestValidate_errorsKeys(t *testing.T) {
 		}]
 	}`)
 
-	if expecting, r := ErrInvalidErrorMember, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrInvalidErrorMember, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }

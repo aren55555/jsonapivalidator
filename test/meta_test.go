@@ -1,6 +1,10 @@
-package jsonapivalidator
+package test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/aren55555/jsonapivalidator"
+)
 
 func TestValidate_validMeta(t *testing.T) {
 	data := []byte(`{
@@ -25,7 +29,7 @@ func TestValidate_invalidMeta(t *testing.T) {
   	"meta": 21
   }`)
 
-	if expecting, r := ErrNotMetaObject, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrNotMetaObject, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }

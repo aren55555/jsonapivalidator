@@ -45,14 +45,14 @@ func Validate(payload interface{}) (result *Result) {
 	}
 	//  included: an array of resource objects that are related to the primary
 	//            data and/or each other (“included resources”).
-	_, includedExists := document[memberIncluded]
+	included, includedExists := document[memberIncluded]
 	// If a document does not contain a top-level data key, the included member
 	// MUST NOT be present either.
 	if !dataExists && includedExists {
 		result.AddError(ErrRootIncludedWithoutData)
 	}
 	if includedExists {
-		// TODO: validate included
+		validateIncluded(included, result)
 	}
 
 	return

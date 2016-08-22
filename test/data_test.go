@@ -1,6 +1,10 @@
-package jsonapivalidator
+package test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/aren55555/jsonapivalidator"
+)
 
 func TestValidate_nullData(t *testing.T) {
 	data := []byte(`{
@@ -27,7 +31,7 @@ func TestValidate_dataUnexpected(t *testing.T) {
 	  "data": false
 	}`)
 
-	if expecting, r := ErrInvalidDataType, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrInvalidDataType, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }

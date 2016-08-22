@@ -1,6 +1,10 @@
-package jsonapivalidator
+package test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/aren55555/jsonapivalidator"
+)
 
 func TestValidate_validLinks(t *testing.T) {
 	data := []byte(`{
@@ -31,7 +35,7 @@ func TestValidate_invalidLinks(t *testing.T) {
 	  "links": 5
 	}`)
 
-	if expecting, r := ErrNotLinksObject, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrNotLinksObject, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
@@ -42,7 +46,7 @@ func TestValidate_invalidLinkValue(t *testing.T) {
 	  "links": {"aren": []}
 	}`)
 
-	if expecting, r := ErrInvalidLinkType, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrInvalidLinkType, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }
@@ -67,7 +71,7 @@ func TestValidate_invalidLinkObjectMember(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := ErrInvalidLinkMember, validatePayload(t, data); !r.HasError(expecting) {
+	if expecting, r := jsonapivalidator.ErrInvalidLinkMember, validatePayload(t, data); !r.HasError(expecting) {
 		t.Fatalf(testErrorExpected, expecting, r.Errors())
 	}
 }

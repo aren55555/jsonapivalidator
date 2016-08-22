@@ -20,6 +20,9 @@ var (
 	ErrInvalidDataType = errors.New("/data must contain a value that is a {}, " +
 		"[] or null")
 
+	// ErrInvalidIncludedType is for errors not being an array
+	ErrInvalidIncludedType = errors.New("/included must contain a []")
+
 	// ErrInvalidErrorsType is for errors not being an array
 	ErrInvalidErrorsType = errors.New("/errors must contain a []")
 	// ErrNotErrorObject is the error when the error object is not a {} with

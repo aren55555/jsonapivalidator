@@ -1,4 +1,4 @@
-package jsonapivalidator
+package test
 
 import "testing"
 
