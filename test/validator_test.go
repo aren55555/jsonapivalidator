@@ -27,7 +27,7 @@ func TestValidate_invalidIncludedWithoutData(t *testing.T) {
 }
 
 func TestUnmarshalAndValidate(t *testing.T) {
-	data := loadSample(t, "default.json")
+	data := loadSample(t, "valid/default.json")
 
 	r, err := jsonapivalidator.UnmarshalAndValidate(data)
 	if err != nil {
