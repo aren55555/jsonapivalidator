@@ -2,6 +2,19 @@ package jsonapivalidator
 
 import "encoding/json"
 
+var validRootLinksMembers = newStringSet(
+	// The link that generated the current response document:
+	memberSelf,
+	// A related resource link when the primary data represents a resource
+	// relationship:
+	memberRelated,
+	// Pagination links for the primary data:
+	memberPaginationFirst,
+	memberPaginationLast,
+	memberPaginationPrev,
+	memberPaginationNext,
+)
+
 // UnmarshalAndValidate wil
 func UnmarshalAndValidate(data []byte) (result *Result, err error) {
 	var root interface{}
@@ -11,7 +24,6 @@ func UnmarshalAndValidate(data []byte) (result *Result, err error) {
 	}
 
 	result = Validate(root)
-
 	return
 }
 
@@ -56,7 +68,7 @@ func Validate(root interface{}) (result *Result) {
 	}
 	//  links: a links object related to the primary data.
 	if links, linksExists := document[memberLinks]; linksExists {
-		validateLinksObject(links, result, linksAllMembers)
+		validateLinksObject(links, result, &validRootLinksMembers)
 	}
 	//  included: an array of resource objects that are related to the primary
 	//            data and/or each other (“included resources”).

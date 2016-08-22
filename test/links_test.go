@@ -65,3 +65,19 @@ func TestValidate_invalidLinkObjectMember(t *testing.T) {
 
 	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkMember)
 }
+
+func TestValidate_invalidTopLevelLinksMember(t *testing.T) {
+	data := []byte(`{
+		"meta": {},
+	  "links": {
+			"aren": {
+    		"href": "http://example.com/articles/1/comments",
+    		"meta": {
+      		"count": 10
+    		}
+  		}
+		}
+	}`)
+
+	expectedResultHasErrors(t, data, 1)
+}

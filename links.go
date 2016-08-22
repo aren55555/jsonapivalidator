@@ -1,10 +1,12 @@
 package jsonapivalidator
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+	"strings"
+)
 
-var linksAllMembers = []string{}
-
-func validateLinksObject(l interface{}, result *Result, onlyMembers []string) {
+func validateLinksObject(l interface{}, result *Result, allowedMembers *map[string]interface{}) {
 	// TODO: in a lot of cases there are only certain members allowed in the links
 	// object; for instance when dealing with a /links object at the top level,
 	// only "self" and "related" members are allowed. The onlyMembers argument
@@ -16,7 +18,19 @@ func validateLinksObject(l interface{}, result *Result, onlyMembers []string) {
 		return // cannot procceed
 	}
 
-	for _, v := range links {
+	for k, v := range links {
+		if allowedMembers != nil {
+			allowed := *allowedMembers
+			if _, ok := allowed[k]; !ok {
+				result.AddError(
+					fmt.Errorf(
+						"The links object member `%s` is not allowed; has to be one of `%s`",
+						k,
+						strings.Join(keys(allowed), ", "),
+					),
+				)
+			}
+		}
 		validateLinkObject(v, result)
 	}
 }

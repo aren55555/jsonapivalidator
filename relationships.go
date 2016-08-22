@@ -32,7 +32,7 @@ func validateRelationshipObject(ro interface{}, result *Result) {
 	}
 
 	if hasLinks {
-		validateLinksObject(links, result, linksAllMembers)
+		validateLinksObject(links, result, nil)
 	}
 	if hasData {
 		validateResourceLinkage(data, result)

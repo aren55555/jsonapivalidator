@@ -19,6 +19,14 @@ const (
 	memberDetail = "detail"
 	memberSource = "source"
 
+	// Links object specific
+	memberSelf            = "self"
+	memberRelated         = "related"
+	memberPaginationFirst = "first"
+	memberPaginationLast  = "last"
+	memberPaginationPrev  = "prev"
+	memberPaginationNext  = "next"
+
 	// Link object specific
 	memberHref = "href"
 )
