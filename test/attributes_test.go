@@ -15,7 +15,5 @@ func TestValidate_attributes(t *testing.T) {
 		}
 	}`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
-	}
+	expectedResult(t, data, nil)
 }

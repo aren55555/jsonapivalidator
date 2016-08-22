@@ -24,9 +24,7 @@ func TestValidate_validLinks(t *testing.T) {
 		}
 	}`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
-	}
+	expectedResult(t, data, nil)
 }
 
 func TestValidate_invalidLinks(t *testing.T) {
@@ -35,9 +33,7 @@ func TestValidate_invalidLinks(t *testing.T) {
 	  "links": 5
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrNotLinksObject, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrNotLinksObject)
 }
 
 func TestValidate_invalidLinkValue(t *testing.T) {
@@ -46,9 +42,7 @@ func TestValidate_invalidLinkValue(t *testing.T) {
 	  "links": {"aren": []}
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrInvalidLinkType, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkType)
 }
 
 // TODO: dependent on a validateURL implementation
@@ -58,9 +52,7 @@ func TestValidate_invalidLinkValue(t *testing.T) {
 // 	  "links": {"aren": "25"}
 // 	}`)
 //
-// 	if expecting, r := ErrInvalidURL, validatePayload(t, data); !r.HasError(expecting) {
-// 		t.Fatalf(testErrorExpected, expecting, r.Errors())
-// 	}
+// 	expectedResult(t, data, jsonapivalidator.ErrInvalidURL)
 // }
 
 func TestValidate_invalidLinkObjectMember(t *testing.T) {
@@ -71,7 +63,5 @@ func TestValidate_invalidLinkObjectMember(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrInvalidLinkMember, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkMember)
 }

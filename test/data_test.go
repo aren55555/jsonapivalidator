@@ -11,9 +11,7 @@ func TestValidate_nullData(t *testing.T) {
   	"data": null
   }`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
-	}
+	expectedResult(t, data, nil)
 }
 
 func TestValidate_dataArrayEmpty(t *testing.T) {
@@ -21,9 +19,7 @@ func TestValidate_dataArrayEmpty(t *testing.T) {
   	"data": []
   }`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
-	}
+	expectedResult(t, data, nil)
 }
 
 func TestValidate_dataUnexpected(t *testing.T) {
@@ -31,7 +27,5 @@ func TestValidate_dataUnexpected(t *testing.T) {
 	  "data": false
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrInvalidDataType, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrInvalidDataType)
 }

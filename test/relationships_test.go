@@ -15,9 +15,7 @@ func TestValidate_invalidRelationshipsObject(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrNotRelationshipsObject, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrNotRelationshipsObject)
 }
 
 func TestValidate_invalidRelationshipObject(t *testing.T) {
@@ -31,9 +29,7 @@ func TestValidate_invalidRelationshipObject(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrNotRelationshipObject, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrNotRelationshipObject)
 }
 
 func TestValidate_nullResourceLinkage(t *testing.T) {
@@ -49,9 +45,7 @@ func TestValidate_nullResourceLinkage(t *testing.T) {
 		}
 	}`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
-	}
+	expectedResult(t, data, nil)
 }
 
 func TestValidate_invalidResourceLinkage(t *testing.T) {
@@ -67,7 +61,5 @@ func TestValidate_invalidResourceLinkage(t *testing.T) {
 		}
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrInvalidResourceLinkage, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrInvalidResourceLinkage)
 }

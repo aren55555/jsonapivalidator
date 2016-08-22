@@ -19,9 +19,7 @@ func TestValidate_validMeta(t *testing.T) {
   	}
   }`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
-	}
+	expectedResult(t, data, nil)
 }
 
 func TestValidate_invalidMeta(t *testing.T) {
@@ -29,7 +27,5 @@ func TestValidate_invalidMeta(t *testing.T) {
   	"meta": 21
   }`)
 
-	if expecting, r := jsonapivalidator.ErrNotMetaObject, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrNotMetaObject)
 }

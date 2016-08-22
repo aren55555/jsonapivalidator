@@ -18,9 +18,7 @@ func TestValidate_validErrors(t *testing.T) {
 		]
 	}`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
-	}
+	expectedResult(t, data, nil)
 }
 
 func TestValidate_errorsNotArray(t *testing.T) {
@@ -28,9 +26,7 @@ func TestValidate_errorsNotArray(t *testing.T) {
 	  "errors": 32
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrInvalidErrorsType, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrInvalidErrorsType)
 }
 
 func TestValidate_errorNotErrorObject(t *testing.T) {
@@ -38,9 +34,7 @@ func TestValidate_errorNotErrorObject(t *testing.T) {
 	  "errors": [32]
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrNotErrorObject, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrNotErrorObject)
 }
 
 func TestValidate_errorsKeys(t *testing.T) {
@@ -50,7 +44,5 @@ func TestValidate_errorsKeys(t *testing.T) {
 		}]
 	}`)
 
-	if expecting, r := jsonapivalidator.ErrInvalidErrorMember, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrInvalidErrorMember)
 }

@@ -8,10 +8,7 @@ import (
 
 func TestValidate_ErrAtLeastOneRoot(t *testing.T) {
 	data := []byte(`{}`)
-
-	if expecting, r := jsonapivalidator.ErrAtLeastOneRoot, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrAtLeastOneRoot)
 }
 
 func TestValidate_ErrRootDataAndErrors(t *testing.T) {
@@ -19,19 +16,12 @@ func TestValidate_ErrRootDataAndErrors(t *testing.T) {
   	"data": {},
   	"errors": {}
   }`)
-
-	if expecting, r := jsonapivalidator.ErrRootDataAndErrors, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrRootDataAndErrors)
 }
 
-// func TestValidate_ErrRootDataAndErrors(t *testing.T) {
-// 	data := []byte(`{
-//   	"data": {},
-//   	"errors": {}
-//   }`)
-//
-// 	if expecting, r := jsonapivalidator.ErrRootDataAndErrors, validatePayload(t, data); !r.HasError(expecting) {
-// 		t.Fatalf(testErrorExpected, expecting, r.Errors())
-// 	}
-// }
+func TestValidate_invalidIncludedWithoutData(t *testing.T) {
+	data := []byte(`{
+  	"included": []
+  }`)
+	expectedResult(t, data, jsonapivalidator.ErrRootIncludedWithoutData)
+}

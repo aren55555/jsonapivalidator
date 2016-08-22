@@ -12,7 +12,5 @@ func TestValidate_invalidJSONAPI(t *testing.T) {
   	"jsonapi": [1,2,3]
   }`)
 
-	if expecting, r := jsonapivalidator.ErrNotJSONAPIObject, validatePayload(t, data); !r.HasError(expecting) {
-		t.Fatalf(testErrorExpected, expecting, r.Errors())
-	}
+	expectedResult(t, data, jsonapivalidator.ErrNotJSONAPIObject)
 }
