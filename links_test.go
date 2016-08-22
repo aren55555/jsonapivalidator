@@ -47,6 +47,18 @@ func TestValidate_invalidLinkValue(t *testing.T) {
 	}
 }
 
+// TODO: dependent on a validateURL implementation
+// func TestValidate_invalidLinkURL(t *testing.T) {
+// 	data := []byte(`{
+// 		"meta": {},
+// 	  "links": {"aren": "25"}
+// 	}`)
+//
+// 	if expecting, r := ErrInvalidURL, validatePayload(t, data); !r.HasError(expecting) {
+// 		t.Fatalf(testErrorExpected, expecting, r.Errors())
+// 	}
+// }
+
 func TestValidate_invalidLinkObjectMember(t *testing.T) {
 	data := []byte(`{
 		"meta": {},

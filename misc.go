@@ -13,3 +13,8 @@ func validateType(t interface{}, result *Result) {
 	}
 	return
 }
+
+func validateURL(t interface{}, result *Result) {
+	// TODO: figure out how to validate a URL; url.Parse will accept almost any
+	// string without producing an error
+}

@@ -59,6 +59,9 @@ var (
 	ErrIDNotString = errors.New("id was not a string")
 	// ErrTypeNotString is for when a type member was anything but a string
 	ErrTypeNotString = errors.New("type was not a string")
+	// ErrInvalidURL is the error returned when a value should have been a URL but
+	// was an invalid URL
+	ErrInvalidURL = errors.New("URL was not a valid URL")
 
 	// ErrNotAttributesObject is the error when the "attributes" value was not a
 	// hash {}

@@ -20,7 +20,7 @@ func validateLinkObject(l interface{}, result *Result) {
 	switch reflect.TypeOf(l).Kind() {
 	case reflect.String:
 		// a string containing the link’s URL.
-		// TODO: validate the URL?
+		validateURL(l, result)
 	case reflect.Map:
 		// an object (“link object”) which can contain the following members:
 		//  href: a string containing the link’s URL.
@@ -36,7 +36,7 @@ func validateLinkObject(l interface{}, result *Result) {
 			switch k {
 			case memberHref:
 				// a string containing the link’s URL.
-				// TODO: perhaps validate the URL?
+				validateURL(v, result)
 			case memberMeta:
 				// a meta object containing non-standard meta-information about the
 				// link.
