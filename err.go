@@ -10,12 +10,20 @@ var (
 	// ErrRootDataAndErrors adsfasd adsf
 	ErrRootDataAndErrors = errors.New("The members /data and /errors MUST NOT" +
 		"coexist in the same document")
-	// ErrInvalidErrorMember is for when the errors object has an unexpected
-	// member key
-	ErrInvalidErrorMember = errors.New("Invalid member to /errors")
 	// ErrInvalidDataType is for data not being a hash array or null JSON type
 	ErrInvalidDataType = errors.New("/data must contain a value that is a {}, " +
 		"[] or null")
+	// ErrInvalidErrorsType is for errors not being an array
+	ErrInvalidErrorsType = errors.New("/errors must contain a []")
+
+	// ErrNotErrorObject is the error when the error object is not a {} with
+	// string keys
+	ErrNotErrorObject = errors.New("The value at the error key was " +
+		"not a valid error object {}")
+	// ErrInvalidErrorMember is for when the errors object has an unexpected
+	// member key
+	ErrInvalidErrorMember = errors.New("Invalid member to /errors")
+
 	// ErrNotJSONAPIObject is for when the "jsonapi" member in the root doc was
 	// not a {}
 	ErrNotJSONAPIObject = errors.New("/jsonapi must contain a value that is a {}")
@@ -50,6 +58,11 @@ var (
 	// hash {}
 	ErrNotAttributesObject = errors.New("The value at the attributes key was " +
 		"not a valid attributes object {}")
+
+	// ErrNotMetaObject is the error when the "attributes" value was not a
+	// hash {}
+	ErrNotMetaObject = errors.New("The value at the meta key was " +
+		"not a valid meta object {}")
 
 	// ErrNotRelationshipsObject is the error when the "relationships" value was
 	// not a hash {}

@@ -9,7 +9,7 @@ func Validate(payload interface{}) (result *Result) {
 	document := payload.(map[string]interface{})
 	data, dataExists := document[memberData]
 	errors, errorsExists := document[memberErrors]
-	_, metaExists := document[memberMeta]
+	meta, metaExists := document[memberMeta]
 
 	if !(metaExists || errorsExists || dataExists) {
 		result.AddError(ErrAtLeastOneRoot)
@@ -26,8 +26,12 @@ func Validate(payload interface{}) (result *Result) {
 
 	// Validate /errors
 	if errorsExists {
-		e := errors.(map[string]interface{})
-		validateErrors(e, result)
+		validateErrors(errors, result)
+	}
+
+	// Validate /meta
+	if metaExists {
+		validateMetaObject(meta, result)
 	}
 
 	// A document MAY contain any of these top-level members: "jsonapi", "links",

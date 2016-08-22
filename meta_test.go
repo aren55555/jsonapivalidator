@@ -2,7 +2,7 @@ package jsonapivalidator
 
 import "testing"
 
-func TestValidate_meta(t *testing.T) {
+func TestValidate_validMeta(t *testing.T) {
 	data := []byte(`{
   	"meta": {
     	"copyright": "Copyright 2015 Example Corp.",
@@ -13,6 +13,16 @@ func TestValidate_meta(t *testing.T) {
       	"Tyler Kellen"
     	]
   	}
+  }`)
+
+	if validatePayload(t, data).HasErrors() {
+		t.Fatal(testErrorNotExpected)
+	}
+}
+
+func TestValidate_invalidMeta(t *testing.T) {
+	data := []byte(`{
+  	"meta": 21
   }`)
 
 	if validatePayload(t, data).HasErrors() {
