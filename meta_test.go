@@ -25,7 +25,7 @@ func TestValidate_invalidMeta(t *testing.T) {
   	"meta": 21
   }`)
 
-	if validatePayload(t, data).HasErrors() {
-		t.Fatal(testErrorNotExpected)
+	if !validatePayload(t, data).HasError(ErrNotMetaObject) {
+		t.Fatal("Was expecting an error")
 	}
 }
