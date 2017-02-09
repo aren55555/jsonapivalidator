@@ -18,7 +18,7 @@ func TestValidate_validErrors(t *testing.T) {
 		]
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_errorsNotArray(t *testing.T) {
@@ -26,7 +26,7 @@ func TestValidate_errorsNotArray(t *testing.T) {
 	  "errors": 32
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidErrorsType)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidErrorsType, noWarning)
 }
 
 func TestValidate_errorNotErrorObject(t *testing.T) {
@@ -34,7 +34,7 @@ func TestValidate_errorNotErrorObject(t *testing.T) {
 	  "errors": [32]
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrNotErrorObject)
+	expectedResult(t, data, jsonapivalidator.ErrNotErrorObject, noWarning)
 }
 
 func TestValidate_errorsKeys(t *testing.T) {
@@ -44,5 +44,5 @@ func TestValidate_errorsKeys(t *testing.T) {
 		}]
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidErrorMember)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidErrorMember, noWarning)
 }

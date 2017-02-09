@@ -11,7 +11,7 @@ func TestValidate_validResourceObject(t *testing.T) {
 	  "data": {"id": "1", "type": "car"}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_validResourceIdentifierObject(t *testing.T) {
@@ -19,7 +19,7 @@ func TestValidate_validResourceIdentifierObject(t *testing.T) {
 		"data": {"id": "1", "type": "car"}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_invalidResourceIdentifierObject_idNotString(t *testing.T) {
@@ -27,7 +27,7 @@ func TestValidate_invalidResourceIdentifierObject_idNotString(t *testing.T) {
 	  "data": {"id": [], "type": "car"}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrIDNotString)
+	expectedResult(t, data, jsonapivalidator.ErrIDNotString, noWarning)
 }
 
 func TestValidate_validateResourceIdentifierObject_typeNotString(t *testing.T) {
@@ -35,7 +35,7 @@ func TestValidate_validateResourceIdentifierObject_typeNotString(t *testing.T) {
 	  "data": {"id": "1", "type": null}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrTypeNotString)
+	expectedResult(t, data, jsonapivalidator.ErrTypeNotString, noWarning)
 }
 
 func TestValidate_invalidResource(t *testing.T) {
@@ -43,5 +43,5 @@ func TestValidate_invalidResource(t *testing.T) {
 	  "data": {"aren55555": true}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrNotAResource)
+	expectedResult(t, data, jsonapivalidator.ErrNotAResource, noWarning)
 }

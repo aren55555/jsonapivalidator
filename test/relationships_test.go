@@ -15,7 +15,7 @@ func TestValidate_invalidRelationshipsObject(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrNotRelationshipsObject)
+	expectedResult(t, data, jsonapivalidator.ErrNotRelationshipsObject, noWarning)
 }
 
 func TestValidate_invalidRelationshipObject(t *testing.T) {
@@ -29,7 +29,7 @@ func TestValidate_invalidRelationshipObject(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrNotRelationshipObject)
+	expectedResult(t, data, jsonapivalidator.ErrNotRelationshipObject, noWarning)
 }
 
 func TestValidate_nullResourceLinkage(t *testing.T) {
@@ -45,7 +45,7 @@ func TestValidate_nullResourceLinkage(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_invalidResourceLinkage(t *testing.T) {
@@ -61,7 +61,7 @@ func TestValidate_invalidResourceLinkage(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidResourceLinkage)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidResourceLinkage, noWarning)
 }
 
 func TestValidate_validToManyRelation(t *testing.T) {
@@ -83,7 +83,7 @@ func TestValidate_validToManyRelation(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_validToManyRelation_withValidLinks(t *testing.T) {
@@ -108,7 +108,7 @@ func TestValidate_validToManyRelation_withValidLinks(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_validToManyRelation_withInvalidLinks(t *testing.T) {
@@ -133,7 +133,7 @@ func TestValidate_validToManyRelation_withInvalidLinks(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkType)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkType, noWarning)
 }
 
 func TestValidate_validToOneRelation(t *testing.T) {
@@ -152,7 +152,7 @@ func TestValidate_validToOneRelation(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_validToOneRelation_withValidLinks(t *testing.T) {
@@ -174,7 +174,7 @@ func TestValidate_validToOneRelation_withValidLinks(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_validToOneRelation_withInvalidLinks(t *testing.T) {
@@ -196,5 +196,5 @@ func TestValidate_validToOneRelation_withInvalidLinks(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkType)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkType, noWarning)
 }

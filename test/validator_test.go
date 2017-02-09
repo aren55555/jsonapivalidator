@@ -8,7 +8,7 @@ import (
 
 func TestValidate_ErrAtLeastOneRoot(t *testing.T) {
 	data := []byte(`{}`)
-	expectedResult(t, data, jsonapivalidator.ErrAtLeastOneRoot)
+	expectedResult(t, data, jsonapivalidator.ErrAtLeastOneRoot, noWarning)
 }
 
 func TestValidate_ErrRootDataAndErrors(t *testing.T) {
@@ -16,14 +16,14 @@ func TestValidate_ErrRootDataAndErrors(t *testing.T) {
   	"data": {},
   	"errors": {}
   }`)
-	expectedResult(t, data, jsonapivalidator.ErrRootDataAndErrors)
+	expectedResult(t, data, jsonapivalidator.ErrRootDataAndErrors, noWarning)
 }
 
 func TestValidate_invalidIncludedWithoutData(t *testing.T) {
 	data := []byte(`{
   	"included": []
   }`)
-	expectedResult(t, data, jsonapivalidator.ErrRootIncludedWithoutData)
+	expectedResult(t, data, jsonapivalidator.ErrRootIncludedWithoutData, noWarning)
 }
 
 func TestUnmarshalAndValidate(t *testing.T) {

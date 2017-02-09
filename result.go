@@ -7,13 +7,14 @@ type Result struct {
 	errors map[error]*interface{}
 	// warnings will be populated with violations of SHOULD, SHOULD NOT,
 	// RECOMMENDED, MAY and OPTIONAL
-	warnings map[string]*interface{}
+	warnings map[error]*interface{}
 }
 
 // NewResult instantiates a Result struct
 func NewResult() (r *Result) {
 	r = &Result{
-		errors: make(map[error]*interface{}),
+		errors:   make(map[error]*interface{}),
+		warnings: make(map[error]*interface{}),
 	}
 	return
 }
@@ -43,12 +44,12 @@ func (r *Result) Errors() (errors []error) {
 }
 
 // AddWarning will append the error to the Result
-func (r *Result) AddWarning(warning string) {
+func (r *Result) AddWarning(warning error) {
 	r.warnings[warning] = nil
 }
 
 // HasWarning checks whether the Result has the particular Error
-func (r *Result) HasWarning(warning string) bool {
+func (r *Result) HasWarning(warning error) bool {
 	_, exists := r.warnings[warning]
 	return exists
 }
@@ -59,7 +60,7 @@ func (r *Result) HasWarnings() bool {
 }
 
 // Warnings will return all the warnings in teh result as a slice
-func (r *Result) Warnings() (warnings []string) {
+func (r *Result) Warnings() (warnings []error) {
 	for warning := range r.warnings {
 		warnings = append(warnings, warning)
 	}

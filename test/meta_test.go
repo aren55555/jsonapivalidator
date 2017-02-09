@@ -19,7 +19,7 @@ func TestValidate_validMeta(t *testing.T) {
   	}
   }`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_invalidMeta(t *testing.T) {
@@ -27,5 +27,5 @@ func TestValidate_invalidMeta(t *testing.T) {
   	"meta": 21
   }`)
 
-	expectedResult(t, data, jsonapivalidator.ErrNotMetaObject)
+	expectedResult(t, data, jsonapivalidator.ErrNotMetaObject, noWarning)
 }

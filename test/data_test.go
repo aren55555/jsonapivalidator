@@ -11,7 +11,7 @@ func TestValidate_nullData(t *testing.T) {
   	"data": null
   }`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_dataArrayEmpty(t *testing.T) {
@@ -19,7 +19,7 @@ func TestValidate_dataArrayEmpty(t *testing.T) {
   	"data": []
   }`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_dataUnexpected(t *testing.T) {
@@ -27,5 +27,5 @@ func TestValidate_dataUnexpected(t *testing.T) {
 	  "data": false
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidDataType)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidDataType, noWarning)
 }

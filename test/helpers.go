@@ -11,10 +11,18 @@ import (
 	"github.com/aren55555/jsonapivalidator"
 )
 
+var (
+	noError, noWarning error
+)
+
 const (
 	testErrorExpected       = "Was expecting an error\nExpected: %s\nGot: %s"
 	testErrorLengthExpected = "Was expecting %d errors; got %d\nErrors: %s"
 	testErrorNotExpected    = "Was not expecting an error\nGot: %s"
+
+	testWarningExpected       = "Was expecting a warning\nExpected: %s\nGot: %s"
+	testWarningLengthExpected = "Was expecting %d warnings; got %d\nWarnings: %s"
+	testWarningNotExpected    = "Was not expecting a warning\nGot: %s"
 )
 
 func validatePayload(t *testing.T, data []byte) *jsonapivalidator.Result {
@@ -25,7 +33,7 @@ func validatePayload(t *testing.T, data []byte) *jsonapivalidator.Result {
 	return jsonapivalidator.Validate(obj)
 }
 
-func expectedResult(t *testing.T, data []byte, expectedErr error) {
+func expectedResult(t *testing.T, data []byte, expectedErr error, expectedWarning error) {
 	r := validatePayload(t, data)
 
 	if expectedErr == nil {
@@ -33,12 +41,23 @@ func expectedResult(t *testing.T, data []byte, expectedErr error) {
 		if r.HasErrors() {
 			t.Fatalf(testErrorNotExpected, joinErrors(r.Errors()))
 		}
-		return
+	} else {
+		// An error is expected
+		if !r.HasError(expectedErr) {
+			t.Fatalf(testErrorExpected, expectedErr, joinErrors(r.Errors()))
+		}
 	}
 
-	// An error is expected
-	if !r.HasError(expectedErr) {
-		t.Fatalf(testErrorExpected, expectedErr, joinErrors(r.Errors()))
+	if expectedWarning == nil {
+		// Was not expecting warnings
+		if r.HasWarnings() {
+			t.Fatalf(testWarningNotExpected, joinErrors(r.Warnings()))
+		}
+	} else {
+		// A warning is expected
+		if !r.HasWarning(expectedWarning) {
+			t.Fatalf(testWarningExpected, expectedWarning, joinErrors(r.Warnings()))
+		}
 	}
 }
 

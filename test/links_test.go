@@ -24,7 +24,7 @@ func TestValidate_validLinks(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, nil)
+	expectedResult(t, data, noError, noWarning)
 }
 
 func TestValidate_invalidLinks(t *testing.T) {
@@ -33,7 +33,7 @@ func TestValidate_invalidLinks(t *testing.T) {
 	  "links": 5
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrNotLinksObject)
+	expectedResult(t, data, jsonapivalidator.ErrNotLinksObject, noWarning)
 }
 
 func TestValidate_invalidLinkValue(t *testing.T) {
@@ -42,7 +42,7 @@ func TestValidate_invalidLinkValue(t *testing.T) {
 	  "links": {"aren": []}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkType)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkType, noWarning)
 }
 
 // TODO: dependent on a validateURL implementation
@@ -63,7 +63,7 @@ func TestValidate_invalidLinkObjectMember(t *testing.T) {
 		}
 	}`)
 
-	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkMember)
+	expectedResult(t, data, jsonapivalidator.ErrInvalidLinkMember, noWarning)
 }
 
 func TestValidate_invalidTopLevelLinksMember(t *testing.T) {
