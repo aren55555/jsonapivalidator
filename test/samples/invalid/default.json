@@ -1,0 +1,32 @@
+{
+  "links": {
+    "self": "http://example.com/cars/1"
+  },
+  "data": {
+    "id": "1",
+    "type": "car",
+    "attributes": {
+      "make": "VW",
+      "model": "R32",
+      "year": 2008,
+      "power": [250, "hp"],
+      "driver_id": 1,
+      "invalid": {
+        "links": {
+          "self": "http://example.com/cars/1"
+        }
+      }
+    },
+    "relationships": {
+      "driver": {
+        "links": {
+          "self": 5
+        },
+        "data": {
+          "type": "person",
+          "id": "1"
+        }
+      }
+    }
+  }
+}
