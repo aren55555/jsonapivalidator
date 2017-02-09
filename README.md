@@ -2,6 +2,8 @@
 
 A validator that determines whether arbitrary JSON payloads are in compliance with the [JSON API specification](http://jsonapi.org/). If the JSON is not compliant this validator will indicate the reason why.
 
+This validator has been written in [Go](https://golang.org/), but it is easy to use it in a Javascript environment thanks to [GopherJS](https://gopherjs.github.io/); see [github.com/aren55555/corroborate](https://github.com/aren55555/corroborate) for a working JS implementation.
+
 ## Installation
 
 ```
