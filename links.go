@@ -6,7 +6,8 @@ import (
 	"strings"
 )
 
-func validateLinksObject(l interface{}, result *Result, allowedMembers *map[string]interface{}) {
+func validateLinksObject(l interface{}, result *Result,
+	allowedMembers *map[string]interface{}) {
 	// TODO: in a lot of cases there are only certain members allowed in the links
 	// object; for instance when dealing with a /links object at the top level,
 	// only "self" and "related" members are allowed. The onlyMembers argument

@@ -4,17 +4,16 @@ package jsonapivalidator
 type Result struct {
 	// errors will be populated with violations of MUST, MUST NOT, REQUIRED,
 	// SHALL and SHALL NOT
-	errors map[error]*empty
+	errors map[error]*interface{}
 	// warnings will be populated with violations of SHOULD, SHOULD NOT,
 	// RECOMMENDED, MAY and OPTIONAL
-	warnings map[string]*empty
+	warnings map[string]*interface{}
 }
-type empty struct{}
 
 // NewResult instantiates a Result struct
 func NewResult() (r *Result) {
 	r = &Result{
-		errors: make(map[error]*empty),
+		errors: make(map[error]*interface{}),
 	}
 	return
 }
