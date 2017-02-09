@@ -3,6 +3,12 @@ package jsonapivalidator
 import "errors"
 
 var (
+	// ErrInvalidDocumentStructure is the error returned when the JSON was not
+	// a POJO at the top level
+	ErrInvalidDocumentStructure = errors.New(`A JSON object MUST be at the ` +
+		`root of every JSON API request and response containing data. This ` +
+		`object defines a document's "top level".`)
+
 	// ErrAtLeastOneRoot is the error returned when a document is missing a top
 	// level member
 	ErrAtLeastOneRoot = errors.New("A document MUST contain at least one of the" +

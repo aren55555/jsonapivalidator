@@ -36,7 +36,12 @@ func Validate(root interface{}) (result *Result) {
 	result = NewResult()
 
 	// Check the document
-	document := root.(map[string]interface{})
+	document, docOK := root.(map[string]interface{})
+	if !docOK {
+		result.AddError(ErrInvalidDocumentStructure)
+		return
+	}
+
 	data, dataExists := document[memberData]
 	errors, errorsExists := document[memberErrors]
 	meta, metaExists := document[memberMeta]
