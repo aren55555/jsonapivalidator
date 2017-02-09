@@ -8,4 +8,44 @@ A validator that determines whether arbitrary JSON payloads are in compliance wi
 go get -u github.com/aren55555/jsonapivalidator
 ```
 
-## Example
+## Examples
+
+```go
+// This one is valid
+req, err := http.DefaultClient.Get("https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/valid/default.json")
+if err != nil {
+  panic(err)
+}
+defer req.Body.Close()
+
+result, err := jsonapivalidator.UnmarshalAndValidate(req.Body)
+if err != nil {
+  panic(err)
+}
+
+if result.IsValid() {
+  fmt.Println("The JSON sample was valid!")
+}
+
+// This one is invalid (in many ways)
+req, err = http.DefaultClient.Get("https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/invalid/default.json")
+if err != nil {
+  panic(err)
+}
+defer req.Body.Close()
+
+result, err = jsonapivalidator.UnmarshalAndValidate(req.Body)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println("Errors:")
+for i, err := range result.Errors() {
+  fmt.Println("\t", i, err)
+}
+
+fmt.Println("Warnings:")
+for i, err := range result.Warnings() {
+  fmt.Println("\t", i, err)
+}
+```

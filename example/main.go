@@ -7,14 +7,9 @@ import (
 	"github.com/aren55555/jsonapivalidator"
 )
 
-const (
-	valid   = "https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/valid/default.json"
-	invalid = "https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/invalid/default.json"
-)
-
 func main() {
 	// First file is valid.
-	req, err := http.DefaultClient.Get(valid)
+	req, err := http.DefaultClient.Get("https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/valid/default.json")
 	if err != nil {
 		panic(err)
 	}
@@ -30,7 +25,7 @@ func main() {
 	}
 
 	// Second file is invalid
-	req, err = http.DefaultClient.Get(invalid)
+	req, err = http.DefaultClient.Get("https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/invalid/default.json")
 	if err != nil {
 		panic(err)
 	}
