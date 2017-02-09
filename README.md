@@ -12,13 +12,9 @@ go get -u github.com/aren55555/jsonapivalidator
 
 ## Examples
 
+### Valid JSON API Payload
 ```go
-// This one is valid
 req, err := http.DefaultClient.Get("https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/valid/default.json")
-if err != nil {
-  panic(err)
-}
-defer req.Body.Close()
 
 result, err := jsonapivalidator.UnmarshalAndValidate(req.Body)
 if err != nil {
@@ -28,13 +24,12 @@ if err != nil {
 if result.IsValid() {
   fmt.Println("The JSON sample was valid!")
 }
+```
 
-// This one is invalid (in many ways)
+### Invalid JSON API Payload
+
+```go
 req, err = http.DefaultClient.Get("https://raw.githubusercontent.com/aren55555/jsonapivalidator/master/test/samples/invalid/default.json")
-if err != nil {
-  panic(err)
-}
-defer req.Body.Close()
 
 result, err = jsonapivalidator.UnmarshalAndValidate(req.Body)
 if err != nil {
