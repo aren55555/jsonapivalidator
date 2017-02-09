@@ -1,6 +1,9 @@
 package jsonapivalidator
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"io"
+)
 
 var validRootLinksMembers = newStringSet(
 	// The link that generated the current response document:
@@ -15,11 +18,11 @@ var validRootLinksMembers = newStringSet(
 	memberPaginationNext,
 )
 
-// UnmarshalAndValidate wil
-func UnmarshalAndValidate(data []byte) (result *Result, err error) {
+// UnmarshalAndValidate will read the JSON data and provide a validator result
+func UnmarshalAndValidate(data io.Reader) (result *Result, err error) {
 	var root interface{}
 
-	if err = json.Unmarshal(data, &root); err != nil {
+	if err = json.NewDecoder(data).Decode(&root); err != nil {
 		return
 	}
 

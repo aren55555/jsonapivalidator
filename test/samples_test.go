@@ -19,11 +19,7 @@ func TestUnmarshalAndValidate_allValid(t *testing.T) {
 			continue // skip dirs
 		}
 
-		data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", validDir, f.Name()))
-		if err != nil {
-			t.Fatal(err)
-		}
-
+		data := loadSample(t, fmt.Sprintf("%s/%s", "valid", f.Name()))
 		r, err := jsonapivalidator.UnmarshalAndValidate(data)
 		if err != nil {
 			t.Fatal(err)

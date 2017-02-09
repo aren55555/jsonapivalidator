@@ -3,7 +3,8 @@ package test
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -69,13 +70,13 @@ func expectedResultHasErrors(t *testing.T, data []byte, errorCount uint) {
 	}
 }
 
-func loadSample(t *testing.T, sample string) (data []byte) {
+func loadSample(t *testing.T, sample string) (data io.Reader) {
 	sampleFile, err := filepath.Abs(fmt.Sprintf("./samples/%s", sample))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	data, err = ioutil.ReadFile(sampleFile)
+	data, err = os.Open(sampleFile)
 	if err != nil {
 		t.Fatal(err)
 	}

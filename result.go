@@ -19,6 +19,14 @@ func NewResult() (r *Result) {
 	return
 }
 
+// IsValid summarizes if the validation result was valid or not
+func (r *Result) IsValid() bool {
+	if !r.HasErrors() && !r.HasWarnings() {
+		return true
+	}
+	return false
+}
+
 // AddError will append the error to the Result
 func (r *Result) AddError(err error) {
 	r.errors[err] = nil
