@@ -46,6 +46,12 @@ func validateAttributeValue(v interface{}, result *Result) {
 	// attribute values. However, any object that constitutes or is contained in
 	// an attribute MUST NOT contain a relationships or links member, as those
 	// members are reserved by this specification for future use.
+
+	if v == nil {
+		return // JSON attribute was null
+	}
+
+	// We had a non null value
 	switch reflect.TypeOf(v).Kind() {
 	case reflect.Map:
 		// TODO: check this map for relationships or links members
@@ -71,6 +77,6 @@ func validateAttributeValue(v interface{}, result *Result) {
 			validateAttributeValue(sv, result)
 		}
 	default:
-		return // must have had
+		return
 	}
 }

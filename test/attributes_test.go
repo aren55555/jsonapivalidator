@@ -22,6 +22,22 @@ func TestValidate_validAttributes(t *testing.T) {
 	expectedResult(t, data, noError, noWarning)
 }
 
+func TestValidate_validAttributes_nulls(t *testing.T) {
+	data := []byte(`{
+	  "data": {
+			"id": "1",
+			"type": "car",
+			"attributes": {
+				"make":  null,
+				"model": null,
+				"year":  null
+			}
+		}
+	}`)
+
+	expectedResult(t, data, noError, noWarning)
+}
+
 func TestValidate_invalidAttributes_topLevelRelationships(t *testing.T) {
 	data := []byte(`{
 	  "data": {
@@ -74,6 +90,7 @@ func TestValidate_invalidAttributes_topLevelLinks(t *testing.T) {
 
 	expectedResult(t, data, noError, jsonapivalidator.WarnAttributesObjectHasLinksMember)
 }
+
 func TestValidate_invalidAttributes_nestedLinks(t *testing.T) {
 	data := []byte(`{
 	  "data": {
